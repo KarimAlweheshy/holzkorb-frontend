@@ -28,7 +28,7 @@ const InventoryForm = ({
   const [minOrder, setMinOrder] = useState(isCreate ? initialState.minOrder : productToEdit.minUnitsPerOrder);
   const [startDate, setFromDate] = useState(isCreate ? initialState.startDate : productToEdit.startDate);
   const [endDate, setToDate] = useState(isCreate ? initialState.endDate : productToEdit.endDate);
-  useEffect(() => fetch(`http://localhost:5000/inventory/${inventoryId}`).then(res => res.json()).then(inventory => {
+  useEffect(() => fetch(`https://holzkorb.herokuapp.com/inventory/${inventoryId}`).then(res => res.json()).then(inventory => {
     setProduct(inventory.productId)
     setStock(inventory.totalUnitsCount)
     setPrice(inventory.pricePerUnit)
@@ -38,7 +38,7 @@ const InventoryForm = ({
   }), [inventoryId])
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch(`http://localhost:5000/inventory${!isCreate && `/${inventoryId}`}`, {
+    fetch(`https://holzkorb.herokuapp.com/inventory${!isCreate && `/${inventoryId}`}`, {
       method: isCreate ? 'POST' : 'PUT',
       headers: {
         'Authorization': `Bearer ${token}`,                                    

@@ -10,7 +10,7 @@ const ManageInventory = () => {
       window.localStorage.setItem('isLoading', 0)
       toast("Successufly updated your inventory", {})
     }
-    fetch('http://localhost:5000/inventory').then(res => res.json()).then(inventory => setInventory(inventory))
+    fetch('https://holzkorb.herokuapp.com/inventory').then(res => res.json()).then(inventory => setInventory(inventory))
   }, [])
   return (
     <main className="manage-inventory">
