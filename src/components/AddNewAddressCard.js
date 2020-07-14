@@ -36,7 +36,7 @@ export const AddNewAddressCard = (address) => {
         try {
             const id = auth.userId
             console.log({...form})
-            const data = await request('/auth/addAddress', 'POST', {"id": id, "address":{...form}}, {
+            const data = await request('https://holzkorb.herokuapp.com/auth/addAddress', 'POST', {"id": id, "address":{...form}}, {
                     Authorization: `Bearer ${auth.token}`
                 }
             )

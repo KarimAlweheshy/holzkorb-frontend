@@ -37,7 +37,7 @@ export const RegistrationPage = () => {
 
   const registrationHandler = async () => {
     try {
-      const data = await request('/auth/register', 'POST', { ...form });
+      const data = await request('https://holzkorb.herokuapp.com/auth/register', 'POST', { ...form });
       auth.login(data.token, data.userId);
       //TODO: Check which user type has logged in
       history.push('/welcome-farmer');

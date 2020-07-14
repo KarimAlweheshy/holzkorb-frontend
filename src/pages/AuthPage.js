@@ -34,9 +34,9 @@ export const AuthPage = () => {
 
     const loginHandler = async () => {
         try {
-            const data_token = await request('/auth/login', 'POST', {...form})
+            const data_token = await request('https://holzkorb.herokuapp.com/auth/login', 'POST', {...form})
             const token = data_token.token
-            const data_id = await request('/auth/me', 'GET', null, {
+            const data_id = await request('https://holzkorb.herokuapp.com/auth/me', 'GET', null, {
                 Authorization: `Bearer ${token}`
             })
             const id = data_id._id

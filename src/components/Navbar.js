@@ -54,7 +54,7 @@ export const Navbar = (isAuthenticated) => {
             auth.logout()
             handleMenuClose()
             history.push('/')
-            request('/auth/logout', 'DELETE', null, {
+            request('https://holzkorb.herokuapp.com/auth/logout', 'DELETE', null, {
                 Authorization: `Bearer ${auth.token}`
             })
         } catch (e) {

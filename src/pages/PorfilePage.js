@@ -15,7 +15,7 @@ export const ProfilePage = () => {
 
     const fetchUser = useCallback(async () => {
         try {
-            const fetched = await request('/auth/me', 'GET', null, {
+            const fetched = await request('https://holzkorb.herokuapp.com/auth/me', 'GET', null, {
                 Authorization: `Bearer ${token}`
             })
             setUser(fetched)
