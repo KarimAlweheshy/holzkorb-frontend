@@ -7,7 +7,7 @@ import { RegistrationOkPage } from './pages/RegistrationOkPage';
 import WelcomeFarmer from './pages/WelcomeFarmer';
 import ManageInventory from './pages/ManageInventory';
 import InventoryForm from './pages/InventoryForm';
-import {ProfilePage} from "./pages/PorfilePage";
+import {ProfilePage} from "./pages/ProfilePage";
 import history from './history';
 
 export const useRoutes = (isAuthenticated) => {
