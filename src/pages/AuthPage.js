@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import {useHttp} from "../hooks/http.hook";
 import {useHistory} from 'react-router-dom'
 import {useAuth} from "../hooks/auth.hook";
+import {AuthContext} from "../context/AuthContext";
 
 const useStyles = makeStyles((theme) => ({
     button: {
@@ -20,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export const AuthPage = () => {
-    const { login}= useAuth()
+    const auth = useContext(AuthContext);
     const history = useHistory()
     const classes = useStyles()
     const {request} = useHttp()
@@ -40,7 +41,8 @@ export const AuthPage = () => {
                 Authorization: `Bearer ${token}`
             })
             const id = data_id._id
-            login(token, id)
+            auth.login(token, id)
+            console.log(token)
             history.push("/search")
         } catch (e) {
             console.log("login error: " + e.message)
@@ -62,7 +64,7 @@ export const AuthPage = () => {
                         <TextField id="email" label="Email" name="email" onChange={changeHandler}/>
                     </div>
                     <div>
-                        <TextField id="password" label="Password" name="password" onChange={changeHandler}/>
+                        <TextField type={"password"} id="password" label="Password" name="password" onChange={changeHandler}/>
                     </div>
 
                 </CardContent>
