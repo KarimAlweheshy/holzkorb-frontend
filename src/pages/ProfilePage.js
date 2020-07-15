@@ -22,7 +22,7 @@ export const ProfilePage = () => {
             console.log(user)
         } catch (e) {
         }
-    }, [token, request])
+    }, [token, request, user])
 
     const getAddressCard = address => {
         return (

@@ -67,6 +67,15 @@ const WelcomeFarmer = () => {
                         Manage Inventory
                       </button>
                     </Link>
+                    <Link to="/manage-product">
+                      <button
+                        className="bg-blue-400 active:bg-blue-600 focus:bg-blue-600 hover:bg-blue-500 uppercase text-blue-800 font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1 flex items-center ml-auto"
+                        type="button"
+                        style={{ transition: 'all .15s ease' }}>
+                        <i className="fa fa-unlock-alt mr-2 text-lg text-currentColor"></i>{' '}
+                        Manage Products Master Data
+                      </button>
+                    </Link>
                   </div>
                 </div>
                 <div className="w-full lg:w-4/12 px-4 lg:order-1">

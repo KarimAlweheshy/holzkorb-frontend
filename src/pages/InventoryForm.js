@@ -1,19 +1,30 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import {AuthContext} from "../context/AuthContext";
-
+import { AuthContext } from '../context/AuthContext';
 
 const InventoryForm = ({
   match: {
     params: { inventoryId },
   },
-  history
+  history,
 }) => {
-  useEffect(() => window.localStorage.setItem('isLoading', 0), [])
-  const {token} = useContext(AuthContext)
+  const [products, setProducts] = useState([]);
+  const { token } = useContext(AuthContext);
+  useEffect(() => {
+    window.localStorage.setItem('isLoading', 0);
+    (() =>
+      fetch('https://holzkorb-backend.herokuapp.com/products', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      })
+        .then((res) => res.json())
+        .then((product) => setProducts(product)))();
+  }, []);
   const isCreate = inventoryId === 'create';
-  const [productToEdit, setProductToEdit] = useState({})
-  
+  const [productToEdit, setProductToEdit] = useState({});
+
   const initialState = {
     productId: '',
     totalUnitsCount: '',
@@ -21,42 +32,66 @@ const InventoryForm = ({
     minUnitsPerOrder: '',
     startDate: null,
     endDate: null,
-  }
-  const [product, setProduct] = useState(isCreate ? initialState.product : productToEdit.productId);
-  const [stock, setStock] = useState(isCreate ? initialState.stock : productToEdit.totalUnitsCount);
-  const [price, setPrice] = useState(isCreate ? initialState.price : productToEdit.pricePerUnit);
-  const [minOrder, setMinOrder] = useState(isCreate ? initialState.minOrder : productToEdit.minUnitsPerOrder);
-  const [startDate, setFromDate] = useState(isCreate ? initialState.startDate : productToEdit.startDate);
-  const [endDate, setToDate] = useState(isCreate ? initialState.endDate : productToEdit.endDate);
-  useEffect(() => fetch(`https://holzkorb-backend.herokuapp.com/inventory/${inventoryId}`).then(res => res.json()).then(inventory => {
-    setProduct(inventory.productId)
-    setStock(inventory.totalUnitsCount)
-    setPrice(inventory.pricePerUnit)
-    setMinOrder(inventory.minUnitsPerOrder)
-    setFromDate(inventory.startDate)
-    setToDate(inventory.endDate)
-  }), [inventoryId])
+  };
+  const [product, setProduct] = useState(
+    isCreate ? initialState.product : productToEdit.productId
+  );
+  const [stock, setStock] = useState(
+    isCreate ? initialState.stock : productToEdit.totalUnitsCount
+  );
+  const [price, setPrice] = useState(
+    isCreate ? initialState.price : productToEdit.pricePerUnit
+  );
+  const [minOrder, setMinOrder] = useState(
+    isCreate ? initialState.minOrder : productToEdit.minUnitsPerOrder
+  );
+  const [startDate, setFromDate] = useState(
+    isCreate ? initialState.startDate : productToEdit.startDate
+  );
+  const [endDate, setToDate] = useState(
+    isCreate ? initialState.endDate : productToEdit.endDate
+  );
+  useEffect(() => {
+    !isCreate &&
+      fetch(`https://holzkorb-backend.herokuapp.com/inventory/${inventoryId}`)
+        .then((res) => res.json())
+        .then((inventory) => {
+          setProduct(inventory.productId);
+          setStock(inventory.totalUnitsCount);
+          setPrice(inventory.pricePerUnit);
+          setMinOrder(inventory.minUnitsPerOrder);
+          setFromDate(inventory.startDate);
+          setToDate(inventory.endDate);
+        });
+  }, [inventoryId]);
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch(`https://holzkorb-backend.herokuapp.com/inventory${!isCreate && `/${inventoryId}`}`, {
-      method: isCreate ? 'POST' : 'PUT',
-      headers: {
-        'Authorization': `Bearer ${token}`,                                    
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        productId: product,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
-        totalUnitsCount: stock,
-        pricePerUnit: price,
-        minUnitsPerOrder: minOrder,
-        startDate,
-        endDate,
-        orderUnit: 'KG',
-      }),
-    }).then(res => {
-      window.localStorage.setItem('isLoading', 1)
-      history.push('/manage-inventory')
-    }).catch((e) => console.error(e));
+    fetch(
+      `https://holzkorb-backend.herokuapp.com/inventory${
+        !isCreate ? `/${inventoryId}` : ''
+      }`,
+      {
+        method: isCreate ? 'POST' : 'PUT',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          productId: product,
+          totalUnitsCount: stock,
+          pricePerUnit: price,
+          minUnitsPerOrder: minOrder,
+          startDate,
+          endDate,
+          orderUnit: 'KG',
+        }),
+      }
+    )
+      .then((res) => {
+        window.localStorage.setItem('isLoading', 1);
+        history.push('/manage-inventory');
+      })
+      .catch((e) => console.error(e));
   };
   return (
     <main className="inventory-form">
@@ -80,11 +115,10 @@ const InventoryForm = ({
                   required
                   value={product}
                   className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
-                    <option value="">Choose a product</option>
-                  <option value="1">Valencia Orange</option>
-                  <option value="2">Moroccan Olives</option>
-                  <option value="3">Strawberries</option>
-                  <option value="4">Pomengrate</option>
+                  <option value="">Choose a product</option>
+                  {products.map((p) => (
+                    <option value={p._id}>{p.name}</option>
+                  ))}
                 </select>
                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                   <svg

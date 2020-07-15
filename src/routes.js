@@ -7,8 +7,10 @@ import { RegistrationOkPage } from './pages/RegistrationOkPage';
 import WelcomeFarmer from './pages/WelcomeFarmer';
 import ManageInventory from './pages/ManageInventory';
 import InventoryForm from './pages/InventoryForm';
-import {ProfilePage} from "./pages/ProfilePage";
+import { ProfilePage } from './pages/ProfilePage';
 import history from './history';
+import ProductForm from './pages/ProductForm';
+import ManageProduct from './pages/ManageProduct';
 
 export const useRoutes = (isAuthenticated) => {
   if (isAuthenticated) {
@@ -20,6 +22,8 @@ export const useRoutes = (isAuthenticated) => {
         <Route path="/welcome-farmer" exact component={WelcomeFarmer} />
         <Route path="/manage-inventory" exact component={ManageInventory} />
         <Route path="/inventory/:inventoryId" exact component={InventoryForm} />
+        <Route path="/manage-product" exact component={ManageProduct} />
+        <Route path="/product/:productId" exact component={ProductForm} />
         <Redirect to="/" />
       </Switch>
     );
