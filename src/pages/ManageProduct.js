@@ -6,7 +6,7 @@ import { AuthContext } from '../context/AuthContext';
 
 const ManageProduct = () => {
   const [product, setProduct] = useState([]);
-  const { token } = useContext(AuthContext);
+  const { token, userId } = useContext(AuthContext);
   useEffect(() => {
     if (
       window.localStorage.getItem('isLoading') &&
