@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import Carousel from "react-material-ui-carousel";
 import Grid from "@material-ui/core/Grid";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -33,7 +33,6 @@ function Item(props) {
     return (
         <Grid>
             <Card>
-                {/*<img src={path}/>*/}
                 <CardMedia
                     className={classes.media}
                     component="img"

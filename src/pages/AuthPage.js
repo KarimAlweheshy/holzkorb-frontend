@@ -9,7 +9,6 @@ import TextField from "@material-ui/core/TextField";
 import Typography from '@material-ui/core/Typography';
 import {useHttp} from "../hooks/http.hook";
 import {useHistory} from 'react-router-dom'
-import {useAuth} from "../hooks/auth.hook";
 import {AuthContext} from "../context/AuthContext";
 
 const useStyles = makeStyles((theme) => ({
@@ -41,7 +40,7 @@ export const AuthPage = () => {
                 Authorization: `Bearer ${token}`
             })
             const id = data_id._id
-            auth.login(token, id)
+            auth.login(token, id, "customer")
             console.log(token)
             history.push("/search")
         } catch (e) {

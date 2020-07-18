@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
+import {useAuth} from "../hooks/auth.hook";
 
 const ProductForm = ({
   match: {
@@ -12,6 +12,7 @@ const ProductForm = ({
   const { token } = useContext(AuthContext);
   const isCreate = productId === 'create';
   const [productToEdit, setProductToEdit] = useState({});
+  const auth = useAuth()
 
   const initialState = {
     name: '',
@@ -29,7 +30,7 @@ const ProductForm = ({
   );
   useEffect(() => {
     !isCreate &&
-      fetch(`https://cors-anywhere.herokuapp.com/https://holzkorb-backend.herokuapp.com/products/${productId}`, {
+      fetch(`https://holzkorb-backend.herokuapp.com/products/${productId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -45,7 +46,7 @@ const ProductForm = ({
   const handleSubmit = (e) => {
     e.preventDefault();
     fetch(
-      `https://cors-anywhere.herokuapp.com/https://holzkorb-backend.herokuapp.com/products${
+      `https://holzkorb-backend.herokuapp.com/products${
         !isCreate ? `/${productId}` : ''
       }`,
       {
@@ -58,6 +59,7 @@ const ProductForm = ({
           name: name,
           subtitle: subtitle,
           description: description,
+          ownerId: auth.userId,
         }),
       }
     )

@@ -50,6 +50,7 @@
       "last 1 safari version"
     ]
   },
+  "proxy": "http://localhost:5000",
   "devDependencies": {
     "@material-ui/icons": "^4.9.1",
     "font-awesome": "^4.7.0"
