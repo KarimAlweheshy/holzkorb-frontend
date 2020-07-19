@@ -2,9 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {useAuth} from "../hooks/auth.hook";
+import {AuthContext} from "../context/AuthContext";
 
 const ManageInventory = () => {
   const [inventory, setInventory] = useState([]);
+  const auth = useAuth(AuthContext)
   useEffect(() => {
     if (
       window.localStorage.getItem('isLoading') &&
@@ -14,9 +17,10 @@ const ManageInventory = () => {
       toast('Successufly updated your inventory', {});
     }
     (() =>
-      fetch('https://holzkorb-backend.herokuapp.com/inventory')
+      fetch('/inventory', )
         .then((res) => res.json())
         .then((inventory) => setInventory(inventory)))();
+    console.log(inventory)
   }, []);
   return (
     <main className="manage-inventory">
@@ -110,7 +114,7 @@ const ManageInventory = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {inventory.map((item) => (
+                  {inventory.filter(item => item.ownerId === auth.userId).map((item) => (
                     <tr>
                       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                         <div className="flex items-center">
@@ -125,7 +129,7 @@ const ManageInventory = () => {
                             <Link
                               to={`/inventory/${item._id}`}
                               className="text-blue-500 hover:text-blue-700 underline hover:no-underline whitespace-no-wrap">
-                              Valencia Orange
+                              {item.name}
                             </Link>
                           </div>
                         </div>
@@ -205,242 +209,242 @@ const ManageInventory = () => {
                       </td>
                     </tr>
                   ))}
-                  <tr>
-                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <div className="flex items-center">
-                        <div className="flex-shrink-0 w-10 h-10">
-                          <img
-                            className="w-full h-full rounded-full"
-                            src="https://www.moroccoworldnews.com/wp-content/uploads/2014/09/olive-trees.jpg"
-                            alt=""
-                          />
-                        </div>
-                        <div className="ml-3">
-                          <Link
-                            to={`/inventory/${2}`}
-                            className="text-blue-500 hover:text-blue-700 underline hover:no-underline whitespace-no-wrap">
-                            Moroccan Olives
-                          </Link>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <p className="text-gray-900 whitespace-no-wrap">500</p>
-                    </td>
-                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <p className="text-gray-900 whitespace-no-wrap">5</p>
-                    </td>
-                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <p className="text-gray-900 whitespace-no-wrap">
-                        4,00 EUR
-                      </p>
-                    </td>
-                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <span className="relative inline-block px-3 py-1 font-semibold text-orange-900 leading-tight">
-                        <span
-                          aria-hidden
-                          className="absolute inset-0 bg-orange-200 opacity-50 rounded-full"></span>
-                        <span className="relative">
-                          Will be active (on 12th June)
-                        </span>
-                      </span>
-                    </td>
-                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-right">
-                      <svg
-                        version="1.1"
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="chart"
-                        height="20"
-                        width="100"
-                        aria-labelledby="title"
-                        style={{ transform: 'scaleX(2)' }}
-                        role="img">
-                        <title id="title">
-                          A bart chart showing information
-                        </title>
-                        <g className="bar" transform="translate(0,0)">
-                          <rect height="10" y="10" width="10"></rect>
-                        </g>
-                        <g className="bar" transform="translate(10,0)">
-                          <rect height="6" y="14" width="10"></rect>
-                        </g>
-                        <g className="bar" transform="translate(20,0)">
-                          <rect height="20" width="10"></rect>
-                        </g>
-                        <g className="bar" transform="translate(30,0)">
-                          <rect height="10" y="10" width="10"></rect>
-                        </g>
-                        <g className="bar" transform="translate(40,0)">
-                          <rect height="9" y="11" width="10"></rect>
-                        </g>
-                        <g className="bar" transform="translate(50,0)">
-                          <rect height="10" y="10" width="10"></rect>
-                        </g>
-                        <g className="bar" transform="translate(60,0)">
-                          <rect height="17" y="3" width="10"></rect>
-                        </g>
-                        <g className="bar" transform="translate(70,0)">
-                          <rect height="18" y="2" width="10"></rect>
-                        </g>
-                      </svg>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <div className="flex items-center">
-                        <div className="flex-shrink-0 w-10 h-10">
-                          <img
-                            className="w-full h-full rounded-full"
-                            src="https://agfstorage.blob.core.windows.net/misc/FP_es/2019/01/28/curritas.jpg"
-                            alt=""
-                          />
-                        </div>
-                        <div className="ml-3">
-                          <Link
-                            to={`/inventory/${3}`}
-                            className="text-blue-500 hover:text-blue-700 underline hover:no-underline whitespace-no-wrap">
-                            Strawberries
-                          </Link>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <p className="text-gray-900 whitespace-no-wrap">500</p>
-                    </td>
-                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <p className="text-gray-900 whitespace-no-wrap">5</p>
-                    </td>
-                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <p className="text-gray-900 whitespace-no-wrap">
-                        4,00 EUR
-                      </p>
-                    </td>
-                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <span className="relative inline-block px-3 py-1 font-semibold text-red-900 leading-tight">
-                        <span
-                          aria-hidden
-                          className="absolute inset-0 bg-red-200 opacity-50 rounded-full"></span>
-                        <span className="relative">Expired :-(</span>
-                      </span>
-                    </td>
-                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-right">
-                      <svg
-                        version="1.1"
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="chart"
-                        height="20"
-                        width="100"
-                        aria-labelledby="title"
-                        style={{ transform: 'scaleX(2)' }}
-                        role="img">
-                        <title id="title">
-                          A bart chart showing information
-                        </title>
-                        <g className="bar" transform="translate(0,0)">
-                          <rect height="10" y="10" width="10"></rect>
-                        </g>
-                        <g className="bar" transform="translate(10,0)">
-                          <rect height="6" y="14" width="10"></rect>
-                        </g>
-                        <g className="bar" transform="translate(20,0)">
-                          <rect height="20" width="10"></rect>
-                        </g>
-                        <g className="bar" transform="translate(30,0)">
-                          <rect height="10" y="10" width="10"></rect>
-                        </g>
-                        <g className="bar" transform="translate(40,0)">
-                          <rect height="9" y="11" width="10"></rect>
-                        </g>
-                        <g className="bar" transform="translate(50,0)">
-                          <rect height="10" y="10" width="10"></rect>
-                        </g>
-                        <g className="bar" transform="translate(60,0)">
-                          <rect height="17" y="3" width="10"></rect>
-                        </g>
-                        <g className="bar" transform="translate(70,0)">
-                          <rect height="18" y="2" width="10"></rect>
-                        </g>
-                      </svg>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <div className="flex items-center">
-                        <div className="flex-shrink-0 w-10 h-10">
-                          <img
-                            className="w-full h-full rounded-full"
-                            src="https://www.kitchentreaty.com/wp-content/uploads/2009/11/how-to-cut-and-deseed-a-pomegranate-4.jpg"
-                            alt=""
-                          />
-                        </div>
-                        <div className="ml-3">
-                          <Link
-                            to={`/inventory/${4}`}
-                            className="text-blue-500 hover:text-blue-700 underline hover:no-underline whitespace-no-wrap">
-                            Pomengrate
-                          </Link>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <p className="text-gray-900 whitespace-no-wrap">500</p>
-                    </td>
-                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <p className="text-gray-900 whitespace-no-wrap">5</p>
-                    </td>
-                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <p className="text-gray-900 whitespace-no-wrap">
-                        4,00 EUR
-                      </p>
-                    </td>
-                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <span className="relative inline-block px-3 py-1 font-semibold text-red-900 leading-tight">
-                        <span
-                          aria-hidden
-                          className="absolute inset-0 bg-red-200 opacity-50 rounded-full"></span>
-                        <span className="relative">Out of stock :-(</span>
-                      </span>
-                    </td>
-                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-right">
-                      <svg
-                        version="1.1"
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="chart"
-                        height="20"
-                        width="100"
-                        aria-labelledby="title"
-                        style={{ transform: 'scaleX(2)' }}
-                        role="img">
-                        <title id="title">
-                          A bart chart showing information
-                        </title>
-                        <g className="bar" transform="translate(0,0)">
-                          <rect height="10" y="10" width="10"></rect>
-                        </g>
-                        <g className="bar" transform="translate(10,0)">
-                          <rect height="6" y="14" width="10"></rect>
-                        </g>
-                        <g className="bar" transform="translate(20,0)">
-                          <rect height="20" width="10"></rect>
-                        </g>
-                        <g className="bar" transform="translate(30,0)">
-                          <rect height="10" y="10" width="10"></rect>
-                        </g>
-                        <g className="bar" transform="translate(40,0)">
-                          <rect height="9" y="11" width="10"></rect>
-                        </g>
-                        <g className="bar" transform="translate(50,0)">
-                          <rect height="10" y="10" width="10"></rect>
-                        </g>
-                        <g className="bar" transform="translate(60,0)">
-                          <rect height="17" y="3" width="10"></rect>
-                        </g>
-                        <g className="bar" transform="translate(70,0)">
-                          <rect height="18" y="2" width="10"></rect>
-                        </g>
-                      </svg>
-                    </td>
-                  </tr>
+                  {/*<tr>*/}
+                  {/*  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">*/}
+                  {/*    <div className="flex items-center">*/}
+                  {/*      <div className="flex-shrink-0 w-10 h-10">*/}
+                  {/*        <img*/}
+                  {/*          className="w-full h-full rounded-full"*/}
+                  {/*          src="https://www.moroccoworldnews.com/wp-content/uploads/2014/09/olive-trees.jpg"*/}
+                  {/*          alt=""*/}
+                  {/*        />*/}
+                  {/*      </div>*/}
+                  {/*      <div className="ml-3">*/}
+                  {/*        <Link*/}
+                  {/*          to={`/inventory/${2}`}*/}
+                  {/*          className="text-blue-500 hover:text-blue-700 underline hover:no-underline whitespace-no-wrap">*/}
+                  {/*          Moroccan Olives*/}
+                  {/*        </Link>*/}
+                  {/*      </div>*/}
+                  {/*    </div>*/}
+                  {/*  </td>*/}
+                  {/*  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">*/}
+                  {/*    <p className="text-gray-900 whitespace-no-wrap">500</p>*/}
+                  {/*  </td>*/}
+                  {/*  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">*/}
+                  {/*    <p className="text-gray-900 whitespace-no-wrap">5</p>*/}
+                  {/*  </td>*/}
+                  {/*  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">*/}
+                  {/*    <p className="text-gray-900 whitespace-no-wrap">*/}
+                  {/*      4,00 EUR*/}
+                  {/*    </p>*/}
+                  {/*  </td>*/}
+                  {/*  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">*/}
+                  {/*    <span className="relative inline-block px-3 py-1 font-semibold text-orange-900 leading-tight">*/}
+                  {/*      <span*/}
+                  {/*        aria-hidden*/}
+                  {/*        className="absolute inset-0 bg-orange-200 opacity-50 rounded-full"></span>*/}
+                  {/*      <span className="relative">*/}
+                  {/*        Will be active (on 12th June)*/}
+                  {/*      </span>*/}
+                  {/*    </span>*/}
+                  {/*  </td>*/}
+                  {/*  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-right">*/}
+                  {/*    <svg*/}
+                  {/*      version="1.1"*/}
+                  {/*      xmlns="http://www.w3.org/2000/svg"*/}
+                  {/*      className="chart"*/}
+                  {/*      height="20"*/}
+                  {/*      width="100"*/}
+                  {/*      aria-labelledby="title"*/}
+                  {/*      style={{ transform: 'scaleX(2)' }}*/}
+                  {/*      role="img">*/}
+                  {/*      <title id="title">*/}
+                  {/*        A bart chart showing information*/}
+                  {/*      </title>*/}
+                  {/*      <g className="bar" transform="translate(0,0)">*/}
+                  {/*        <rect height="10" y="10" width="10"></rect>*/}
+                  {/*      </g>*/}
+                  {/*      <g className="bar" transform="translate(10,0)">*/}
+                  {/*        <rect height="6" y="14" width="10"></rect>*/}
+                  {/*      </g>*/}
+                  {/*      <g className="bar" transform="translate(20,0)">*/}
+                  {/*        <rect height="20" width="10"></rect>*/}
+                  {/*      </g>*/}
+                  {/*      <g className="bar" transform="translate(30,0)">*/}
+                  {/*        <rect height="10" y="10" width="10"></rect>*/}
+                  {/*      </g>*/}
+                  {/*      <g className="bar" transform="translate(40,0)">*/}
+                  {/*        <rect height="9" y="11" width="10"></rect>*/}
+                  {/*      </g>*/}
+                  {/*      <g className="bar" transform="translate(50,0)">*/}
+                  {/*        <rect height="10" y="10" width="10"></rect>*/}
+                  {/*      </g>*/}
+                  {/*      <g className="bar" transform="translate(60,0)">*/}
+                  {/*        <rect height="17" y="3" width="10"></rect>*/}
+                  {/*      </g>*/}
+                  {/*      <g className="bar" transform="translate(70,0)">*/}
+                  {/*        <rect height="18" y="2" width="10"></rect>*/}
+                  {/*      </g>*/}
+                  {/*    </svg>*/}
+                  {/*  </td>*/}
+                  {/*</tr>*/}
+                  {/*<tr>*/}
+                  {/*  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">*/}
+                  {/*    <div className="flex items-center">*/}
+                  {/*      <div className="flex-shrink-0 w-10 h-10">*/}
+                  {/*        <img*/}
+                  {/*          className="w-full h-full rounded-full"*/}
+                  {/*          src="https://agfstorage.blob.core.windows.net/misc/FP_es/2019/01/28/curritas.jpg"*/}
+                  {/*          alt=""*/}
+                  {/*        />*/}
+                  {/*      </div>*/}
+                  {/*      <div className="ml-3">*/}
+                  {/*        <Link*/}
+                  {/*          to={`/inventory/${3}`}*/}
+                  {/*          className="text-blue-500 hover:text-blue-700 underline hover:no-underline whitespace-no-wrap">*/}
+                  {/*          Strawberries*/}
+                  {/*        </Link>*/}
+                  {/*      </div>*/}
+                  {/*    </div>*/}
+                  {/*  </td>*/}
+                  {/*  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">*/}
+                  {/*    <p className="text-gray-900 whitespace-no-wrap">500</p>*/}
+                  {/*  </td>*/}
+                  {/*  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">*/}
+                  {/*    <p className="text-gray-900 whitespace-no-wrap">5</p>*/}
+                  {/*  </td>*/}
+                  {/*  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">*/}
+                  {/*    <p className="text-gray-900 whitespace-no-wrap">*/}
+                  {/*      4,00 EUR*/}
+                  {/*    </p>*/}
+                  {/*  </td>*/}
+                  {/*  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">*/}
+                  {/*    <span className="relative inline-block px-3 py-1 font-semibold text-red-900 leading-tight">*/}
+                  {/*      <span*/}
+                  {/*        aria-hidden*/}
+                  {/*        className="absolute inset-0 bg-red-200 opacity-50 rounded-full"></span>*/}
+                  {/*      <span className="relative">Expired :-(</span>*/}
+                  {/*    </span>*/}
+                  {/*  </td>*/}
+                  {/*  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-right">*/}
+                  {/*    <svg*/}
+                  {/*      version="1.1"*/}
+                  {/*      xmlns="http://www.w3.org/2000/svg"*/}
+                  {/*      className="chart"*/}
+                  {/*      height="20"*/}
+                  {/*      width="100"*/}
+                  {/*      aria-labelledby="title"*/}
+                  {/*      style={{ transform: 'scaleX(2)' }}*/}
+                  {/*      role="img">*/}
+                  {/*      <title id="title">*/}
+                  {/*        A bart chart showing information*/}
+                  {/*      </title>*/}
+                  {/*      <g className="bar" transform="translate(0,0)">*/}
+                  {/*        <rect height="10" y="10" width="10"></rect>*/}
+                  {/*      </g>*/}
+                  {/*      <g className="bar" transform="translate(10,0)">*/}
+                  {/*        <rect height="6" y="14" width="10"></rect>*/}
+                  {/*      </g>*/}
+                  {/*      <g className="bar" transform="translate(20,0)">*/}
+                  {/*        <rect height="20" width="10"></rect>*/}
+                  {/*      </g>*/}
+                  {/*      <g className="bar" transform="translate(30,0)">*/}
+                  {/*        <rect height="10" y="10" width="10"></rect>*/}
+                  {/*      </g>*/}
+                  {/*      <g className="bar" transform="translate(40,0)">*/}
+                  {/*        <rect height="9" y="11" width="10"></rect>*/}
+                  {/*      </g>*/}
+                  {/*      <g className="bar" transform="translate(50,0)">*/}
+                  {/*        <rect height="10" y="10" width="10"></rect>*/}
+                  {/*      </g>*/}
+                  {/*      <g className="bar" transform="translate(60,0)">*/}
+                  {/*        <rect height="17" y="3" width="10"></rect>*/}
+                  {/*      </g>*/}
+                  {/*      <g className="bar" transform="translate(70,0)">*/}
+                  {/*        <rect height="18" y="2" width="10"></rect>*/}
+                  {/*      </g>*/}
+                  {/*    </svg>*/}
+                  {/*  </td>*/}
+                  {/*</tr>*/}
+                  {/*<tr>*/}
+                  {/*  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">*/}
+                  {/*    <div className="flex items-center">*/}
+                  {/*      <div className="flex-shrink-0 w-10 h-10">*/}
+                  {/*        <img*/}
+                  {/*          className="w-full h-full rounded-full"*/}
+                  {/*          src="https://www.kitchentreaty.com/wp-content/uploads/2009/11/how-to-cut-and-deseed-a-pomegranate-4.jpg"*/}
+                  {/*          alt=""*/}
+                  {/*        />*/}
+                  {/*      </div>*/}
+                  {/*      <div className="ml-3">*/}
+                  {/*        <Link*/}
+                  {/*          to={`/inventory/${4}`}*/}
+                  {/*          className="text-blue-500 hover:text-blue-700 underline hover:no-underline whitespace-no-wrap">*/}
+                  {/*          Pomengrate*/}
+                  {/*        </Link>*/}
+                  {/*      </div>*/}
+                  {/*    </div>*/}
+                  {/*  </td>*/}
+                  {/*  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">*/}
+                  {/*    <p className="text-gray-900 whitespace-no-wrap">500</p>*/}
+                  {/*  </td>*/}
+                  {/*  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">*/}
+                  {/*    <p className="text-gray-900 whitespace-no-wrap">5</p>*/}
+                  {/*  </td>*/}
+                  {/*  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">*/}
+                  {/*    <p className="text-gray-900 whitespace-no-wrap">*/}
+                  {/*      4,00 EUR*/}
+                  {/*    </p>*/}
+                  {/*  </td>*/}
+                  {/*  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">*/}
+                  {/*    <span className="relative inline-block px-3 py-1 font-semibold text-red-900 leading-tight">*/}
+                  {/*      <span*/}
+                  {/*        aria-hidden*/}
+                  {/*        className="absolute inset-0 bg-red-200 opacity-50 rounded-full"></span>*/}
+                  {/*      <span className="relative">Out of stock :-(</span>*/}
+                  {/*    </span>*/}
+                  {/*  </td>*/}
+                  {/*  <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-right">*/}
+                  {/*    <svg*/}
+                  {/*      version="1.1"*/}
+                  {/*      xmlns="http://www.w3.org/2000/svg"*/}
+                  {/*      className="chart"*/}
+                  {/*      height="20"*/}
+                  {/*      width="100"*/}
+                  {/*      aria-labelledby="title"*/}
+                  {/*      style={{ transform: 'scaleX(2)' }}*/}
+                  {/*      role="img">*/}
+                  {/*      <title id="title">*/}
+                  {/*        A bart chart showing information*/}
+                  {/*      </title>*/}
+                  {/*      <g className="bar" transform="translate(0,0)">*/}
+                  {/*        <rect height="10" y="10" width="10"></rect>*/}
+                  {/*      </g>*/}
+                  {/*      <g className="bar" transform="translate(10,0)">*/}
+                  {/*        <rect height="6" y="14" width="10"></rect>*/}
+                  {/*      </g>*/}
+                  {/*      <g className="bar" transform="translate(20,0)">*/}
+                  {/*        <rect height="20" width="10"></rect>*/}
+                  {/*      </g>*/}
+                  {/*      <g className="bar" transform="translate(30,0)">*/}
+                  {/*        <rect height="10" y="10" width="10"></rect>*/}
+                  {/*      </g>*/}
+                  {/*      <g className="bar" transform="translate(40,0)">*/}
+                  {/*        <rect height="9" y="11" width="10"></rect>*/}
+                  {/*      </g>*/}
+                  {/*      <g className="bar" transform="translate(50,0)">*/}
+                  {/*        <rect height="10" y="10" width="10"></rect>*/}
+                  {/*      </g>*/}
+                  {/*      <g className="bar" transform="translate(60,0)">*/}
+                  {/*        <rect height="17" y="3" width="10"></rect>*/}
+                  {/*      </g>*/}
+                  {/*      <g className="bar" transform="translate(70,0)">*/}
+                  {/*        <rect height="18" y="2" width="10"></rect>*/}
+                  {/*      </g>*/}
+                  {/*    </svg>*/}
+                  {/*  </td>*/}
+                  {/*</tr>*/}
                 </tbody>
               </table>
               <div className="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">

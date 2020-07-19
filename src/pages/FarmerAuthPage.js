@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-export const AuthPage = () => {
+export const FarmerAuthPage = () => {
     const auth = useContext(AuthContext);
     const history = useHistory()
     const classes = useStyles()
@@ -34,15 +34,14 @@ export const AuthPage = () => {
 
     const loginHandler = async () => {
         try {
-            const data_token = await request('/auth/login', 'POST', {...form})
+            const data_token = await request('/farmer/login', 'POST', {...form})
             const token = data_token.token
-            const data_id = await request('/auth/me', 'GET', null, {
+            const data_id = await request('/farmer/me', 'GET', null, {
                 Authorization: `Bearer ${token}`
             })
             const id = data_id._id
-            auth.login(token, id, "customer")
-            console.log(auth.token)
-            history.push("/search")
+            auth.login(token, id, "farmer")
+            history.push("/welcome-farmer")
             history.go()
         } catch (e) {
             console.log("login error: " + e.message)
@@ -71,10 +70,8 @@ export const AuthPage = () => {
                 <CardActions>
                     <div className={classes.button}>
                         <Button size={"small"} variant="contained" color="primary" onClick={loginHandler}>Sign in</Button>
-                        <Button size={"small"} variant="contained" onClick={()=> history.push('/registration')}>Sign up</Button>
+                        <Button size={"small"} variant="contained" onClick={()=> history.push('/farmer-registration')}>Sign up</Button>
                     </div>
-                    <Button size={"small"} onClick={()=> history.push('/farmer-auth')}>I'm a farmer</Button>
-                    <div></div>
                 </CardActions>
             </Card>
         </Grid>

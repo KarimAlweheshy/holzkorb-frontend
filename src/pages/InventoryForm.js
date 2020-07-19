@@ -12,7 +12,7 @@ const InventoryForm = ({
   useEffect(() => {
     window.localStorage.setItem('isLoading', 0);
     (() =>
-      fetch('https://holzkorb-backend.herokuapp.com/products', {
+      fetch('/products', {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -25,7 +25,7 @@ const InventoryForm = ({
   const [productToEdit, setProductToEdit] = useState({});
 
   const initialState = {
-    productId: '',
+    productId: {},
     totalUnitsCount: '',
     pricePerUnit: '',
     minUnitsPerOrder: '',
@@ -35,6 +35,7 @@ const InventoryForm = ({
   const [product, setProduct] = useState(
     isCreate ? initialState.product : productToEdit.productId
   );
+  const [productName, setProductName] = useState('');
   const [stock, setStock] = useState(
     isCreate ? initialState.stock : productToEdit.totalUnitsCount
   );
@@ -52,7 +53,7 @@ const InventoryForm = ({
   );
   useEffect(() => {
     !isCreate &&
-      fetch(`https://holzkorb-backend.herokuapp.com/inventory/${inventoryId}`)
+      fetch(`/inventory/${inventoryId}`)
         .then((res) => res.json())
         .then((inventory) => {
           setProduct(inventory.productId);
@@ -66,7 +67,7 @@ const InventoryForm = ({
   const handleSubmit = (e) => {
     e.preventDefault();
     fetch(
-      `https://holzkorb-backend.herokuapp.com/inventory${
+      `/inventory${
         !isCreate ? `/${inventoryId}` : ''
       }`,
       {
@@ -84,6 +85,7 @@ const InventoryForm = ({
           endDate,
           orderUnit: 'KG',
           ownerId: userId,
+          name: products.filter(item => item._id === product)[0].name
         }),
       }
     )
@@ -111,7 +113,8 @@ const InventoryForm = ({
               </label>
               <div className="relative w-full md:w-1/2">
                 <select
-                  onChange={(e) => setProduct(e.target.value)}
+                  onChange={(e) => {setProduct(e.target.value)
+                    setProductName(e.target.name)}}
                   required
                   value={product}
                   className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">

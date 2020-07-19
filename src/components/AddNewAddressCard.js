@@ -15,7 +15,8 @@ const useStyles = makeStyles({
     root: {
         minWidth: 275,
         margin: 16,
-        justifyContent: 'center'
+        justifyContent: 'center',
+        height: "min-content"
     },
 });
 

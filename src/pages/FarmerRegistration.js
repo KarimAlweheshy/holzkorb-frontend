@@ -35,16 +35,17 @@ export const FarmerRegistration = () => {
     const {request} = useHttp()
     const handleOnClick = async () => {
         try {
-            const data = await request('https://holzkorb-backend.herokuapp.com/farmer/register', 'POST', {...form})
+            const data = await request('/farmer/register', 'POST', {...form})
 
             const token = data.token
-            const data_id = await request('https://holzkorb-backend.herokuapp.com/farmer/me', 'GET', null, {
+            const data_id = await request('farmer/me', 'GET', null, {
                 Authorization: `Bearer ${token}`
             })
             console.log(data_id)
             const id = data_id._id
             auth.login(token, id, "farmer")
             history.push("/welcome-farmer")
+            history.go()
         } catch (e) {
             console.log("login error: " + e.message)
         }

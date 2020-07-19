@@ -6,6 +6,8 @@ import Loader from "../components/Loader";
 import EditIcon from '@material-ui/icons/Edit';
 import TextField from "@material-ui/core/TextField";
 import SaveIcon from '@material-ui/icons/Save';
+import {DropzoneDialog} from "material-ui-dropzone";
+import CardActions from "@material-ui/core/CardActions";
 
 const WelcomeFarmer = () => {
     const [farmer, setFarmer] = useState({})
@@ -13,17 +15,20 @@ const WelcomeFarmer = () => {
     const {token} = useContext(AuthContext)
     const {loading, request} = useHttp()
     const [numProducts, setNumProducts] = useState(0)
+    const [imgSrc, setImgSrc] = useState(require("../assets/img/anonymous_avatar.png"))
+    const [open, setOpen] = useState(false)
 
     const fetchFarmer = useCallback(async () => {
         try {
-            const fetched = await request('https://holzkorb-backend.herokuapp.com/farmer/me', 'GET', null, {
+            const fetched = await request('/farmer/me', 'GET', null, {
                 Authorization: `Bearer ${token}`
             })
             setFarmer(fetched)
-            const products = await request('https://holzkorb-backend.herokuapp.com/products', 'GET', null, {
+            const products = await request('/products', 'GET', null, {
                 Authorization: `Bearer ${token}`
             })
             setNumProducts(products.length)
+            setImgSrc(fetched.imageUrl)
         } catch (e) {
         }
     }, [token, request])
@@ -32,14 +37,19 @@ const WelcomeFarmer = () => {
         setEdit(true)
     }
 
+    const changeImageHandler = () => {
+        if (edit) {
+            setOpen(true)
+        }
+    }
+
     const updateFarmer = event => {
         setFarmer({...farmer, [event.target.name]: event.target.value})
     }
 
     const handleSave = async () => {
-        console.log(farmer)
         try {
-            const fetched = await request('https://holzkorb-backend.herokuapp.com/farmer/update', 'POST', farmer, {
+            const fetched = await request('/farmer/update', 'POST', {...farmer, imageUrl: imgSrc}, {
                 Authorization: `Bearer ${token}`
             })
         } catch (e) {
@@ -48,12 +58,36 @@ const WelcomeFarmer = () => {
         setEdit(false)
     }
 
+    const handleSaveImage = async (files) => {
+        //Saving files to state for further use and closing Modal.
+        const data = new FormData()
+        data.append('file', files[0])
+        data.append('upload_preset', 'holzkorb')
+        // setLoading(true)
+        const res = await fetch(
+            'https://api.cloudinary.com/v1_1/ddeooakzt/image/upload',
+            {
+                method: 'POST',
+                body: data
+            }
+        )
+        const file = await res.json()
+
+        setImgSrc(file.secure_url)
+
+        setOpen(false)
+    }
+
     useEffect(() => {
         fetchFarmer()
     }, [fetchFarmer])
 
     if (loading) {
         return <Loader/>
+    }
+
+    const handleClose = () => {
+        setOpen(false)
     }
 
     return (
@@ -96,9 +130,10 @@ const WelcomeFarmer = () => {
                                     <div className="relative">
                                         <img
                                             alt="..."
-                                            src={require('../assets/img/egyptian-farmer.jpg')}
+                                            src={imgSrc}
                                             className="shadow-xl rounded-full h-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-16"
                                             style={{maxWidth: '150px'}}
+                                            onClick={changeImageHandler}
                                         />
                                     </div>
                                 </div>
@@ -223,6 +258,14 @@ const WelcomeFarmer = () => {
                         </div>
                     </div>
                 </div>
+                <DropzoneDialog
+                    open={open}
+                    onSave={handleSaveImage}
+                    acceptedFiles={['image/jpeg', 'image/png', 'image/bmp']}
+                    showPreviews={true}
+                    maxFileSize={5000000}
+                    onClose={handleClose}
+                />
             </section>
         </main>
     );

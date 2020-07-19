@@ -13,6 +13,7 @@ import ProductForm from './pages/ProductForm';
 import ManageProduct from './pages/ManageProduct';
 import {MainPage} from "./pages/MainPage";
 import {FarmerRegistration} from "./pages/FarmerRegistration";
+import {FarmerAuthPage} from "./pages/FarmerAuthPage";
 
 export const useRoutes = (isAuthenticated) => {
     if (isAuthenticated) {
@@ -45,6 +46,9 @@ export const useRoutes = (isAuthenticated) => {
                 </Route>
                 <Route path="/farmer-registration" exact>
                     <FarmerRegistration/>
+                </Route>
+                <Route path="/farmer-auth" exact>
+                    <FarmerAuthPage/>
                 </Route>
                 <Redirect to="/"/>
             </Switch>
