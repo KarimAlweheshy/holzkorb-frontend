@@ -16,6 +16,7 @@
     "autoprefixer": "^9.8.4",
     "formik": "^2.1.5",
     "material-components-web": "^6.0.0",
+    "material-ui-dropzone": "^3.3.0",
     "materialize-css": "^1.0.0-rc.2",
     "nodemon": "^2.0.4",
     "postcss-cli": "^7.1.1",

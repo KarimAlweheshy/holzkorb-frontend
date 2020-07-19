@@ -47,6 +47,12 @@ export const Navbar = (isAuthenticated) => {
     setAnchorEl(null);
   };
 
+  const handleLogIn = () => {
+    history.push('/auth')
+    history.go()
+    handleMenuClose()
+  }
+
   const handleLogout = (event) => {
     try {
       event.preventDefault();
@@ -66,6 +72,8 @@ export const Navbar = (isAuthenticated) => {
     }
   };
 
+
+
   const handleProfile = () => {
     history.push('/profile');
     handleMenuClose();
@@ -82,21 +90,15 @@ export const Navbar = (isAuthenticated) => {
       transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       open={isMenuOpen}
       onClose={handleMenuClose}>
-      {isAuthenticated && (
+      {auth.isAuthenticated && (
         <div>
+          <MenuItem onClick={handleProfile}>Profile</MenuItem>
           <MenuItem
             onClick={() => {
               history.push('/manage-inventory');
               handleMenuClose();
             }}>
             Manage Inventory
-          </MenuItem>
-          <MenuItem
-            onClick={() => {
-              history.push('/login');
-              handleMenuClose();
-            }}>
-            Login
           </MenuItem>
           <MenuItem
             onClick={() => {
@@ -109,34 +111,40 @@ export const Navbar = (isAuthenticated) => {
           <MenuItem onClick={handleLogout}>Log out</MenuItem>
         </div>
       )}
-      {!isAuthenticated && (
+      {!auth.isAuthenticated && (
         <div>
-          <MenuItem onClick={handleMenuOpen}>Log in</MenuItem>
+          <MenuItem onClick={handleLogIn}>Log in</MenuItem>
         </div>
       )}
     </Menu>
   );
 
   return (
-    <div className={classes.root}>
-      <AppBar position="sticky">
-        <Toolbar>
-          <Typography variant="h6" className={classes.title}>
-            Holzkorb
-          </Typography>
-          <div>
-            <IconButton
-              aria-label="show more"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleMenuOpen}
-              color="inherit">
-              <MoreIcon />
-            </IconButton>
-          </div>
-        </Toolbar>
-      </AppBar>
-      {renderMenu}
-    </div>
+      <div className={classes.root}>
+          <AppBar position="sticky">
+              <Toolbar>
+                  <Typography variant="h6" className={classes.title}
+                              onClick={() => {
+                                  history.push('/')
+                                  history.go()
+                              }
+                              }
+                  >
+                      Holzkorb
+                  </Typography>
+                  <div>
+                      <IconButton
+                          aria-label="show more"
+                          aria-controls={menuId}
+                          aria-haspopup="true"
+                          onClick={handleMenuOpen}
+                          color="inherit">
+                          <MoreIcon/>
+                      </IconButton>
+                  </div>
+              </Toolbar>
+          </AppBar>
+          {renderMenu}
+      </div>
   );
 };

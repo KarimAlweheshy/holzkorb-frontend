@@ -6,6 +6,7 @@ import {AddressCard} from "../components/AddressCard";
 import {AuthContext} from "../context/AuthContext";
 import Loader from "../components/Loader";
 import {AddNewAddressCard} from "../components/AddNewAddressCard";
+import {OrderCard} from "../components/OrderCard";
 
 export const ProfilePage = () => {
 
@@ -15,14 +16,14 @@ export const ProfilePage = () => {
 
     const fetchUser = useCallback(async () => {
         try {
-            const fetched = await request('https://holzkorb-backend.herokuapp.com/auth/me', 'GET', null, {
+            const fetched = await request('/auth/me', 'GET', null, {
                 Authorization: `Bearer ${token}`
             })
             setUser(fetched)
             console.log(user)
         } catch (e) {
         }
-    }, [token, request, user])
+    }, [token, request])
 
     const getAddressCard = address => {
         return (
@@ -40,13 +41,22 @@ export const ProfilePage = () => {
         return <Loader/>
     }
 
-    return (<Grid>
-        <Grid item>
-            {user && <PersonalInfo {...user}/>}
+    return (<Grid container>
+        <Grid item xs={1}/>
+        <Grid container xs={10} >
+            <Grid container xs={12} md={4} spacing={2} aria-orientation={"vertical"}>
+                <Grid item>
+                    {user && <PersonalInfo {...user}/>}
+                </Grid>
+            </Grid>
+            <Grid container xs={12} md={4} spacing={2} alignItems="stretch" aria-orientation={"vertical"}>
+                {user.addresses && user.addresses.map(addressItem => getAddressCard(addressItem.address))}
+                <AddNewAddressCard/>
+            </Grid>
+            <Grid container xs={12} md={4} alignItems="stretch" aria-orientation={"vertical"}>
+                <OrderCard/>
+            </Grid>
         </Grid>
-        <Grid container spacing={2} alignItems="stretch">
-            {user.addresses && user.addresses.map(addressItem => getAddressCard(addressItem.address))}
-            <AddNewAddressCard/>
-        </Grid>
+        <Grid item xs={1}/>
     </Grid>)
 }

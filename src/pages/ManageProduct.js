@@ -16,7 +16,7 @@ const ManageProduct = () => {
       toast('Successufly updated your product', {});
     }
     (() =>
-      fetch('https://holzkorb-backend.herokuapp.com/products', {
+      fetch('/products', {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',

@@ -67,7 +67,7 @@ const InventoryForm = ({
   const handleSubmit = (e) => {
     e.preventDefault();
     fetch(
-      `https://holzkorb-backend.herokuapp.com/inventory${
+      `/inventory${
         !isCreate ? `/${inventoryId}` : ''
       }`,
       {
@@ -84,6 +84,8 @@ const InventoryForm = ({
           startDate,
           endDate,
           orderUnit: 'KG',
+          ownerId: userId,
+          name: products.filter(item => item._id === product)[0].name
         }),
       }
     )

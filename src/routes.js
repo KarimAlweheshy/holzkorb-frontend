@@ -14,6 +14,7 @@ import ManageProduct from './pages/ManageProduct';
 import { MainPage } from './pages/MainPage';
 import { FarmerRegistration } from './pages/FarmerRegistration';
 import CategoryView from './pages/CategoryView';
+import {FarmerAuthPage} from './pages/FarmerAuthPage';
 
 export const useRoutes = (isAuthenticated) => {
   if (isAuthenticated) {
@@ -50,6 +51,8 @@ export const useRoutes = (isAuthenticated) => {
   return (
     <Router history={history}>
       <Switch>
+          <Route path="/" exact component={<MainPage/>}/>
+          <Route path="/auth" exact component={<AuthPage/>}/>
         <Route path="/profile" exact component={ProfilePage} />
         <Route path="/search" exact component={SearchPage} />
         <Route path="/registrationOk" exact component={RegistrationOkPage} />

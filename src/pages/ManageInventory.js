@@ -2,11 +2,13 @@ import React, { useEffect, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {useAuth} from "../hooks/auth.hook";
 import { AuthContext } from '../context/AuthContext';
 
 const ManageInventory = () => {
   const [inventory, setInventory] = useState([]);
   const { token } = useContext(AuthContext);
+  const auth = useAuth(AuthContext)
   useEffect(() => {
     if (
       window.localStorage.getItem('isLoading') &&
@@ -116,7 +118,7 @@ const ManageInventory = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {inventory.map((item) => (
+                  {inventory.filter(item => item.ownerId === auth.userId).map((item) => (
                     <tr>
                       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                         <div className="flex items-center">
@@ -131,7 +133,7 @@ const ManageInventory = () => {
                             <Link
                               to={`/inventory/${item._id}`}
                               className="text-blue-500 hover:text-blue-700 underline hover:no-underline whitespace-no-wrap">
-                              Valencia Orange
+                              {item.name}
                             </Link>
                           </div>
                         </div>
