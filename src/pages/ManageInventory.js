@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { AuthContext } from '../context/AuthContext';
 
 const ManageInventory = () => {
   const [inventory, setInventory] = useState([]);
+  const { token } = useContext(AuthContext);
   useEffect(() => {
     if (
       window.localStorage.getItem('isLoading') &&
@@ -14,9 +16,13 @@ const ManageInventory = () => {
       toast('Successufly updated your inventory', {});
     }
     (() =>
-      fetch('https://holzkorb-backend.herokuapp.com/inventory')
+      fetch('https://holzkorb-backend.herokuapp.com/inventory', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
         .then((res) => res.json())
-        .then((inventory) => setInventory(inventory)))();
+        .then((inventory) => inventory.length && setInventory(inventory)))();
   }, []);
   return (
     <main className="manage-inventory">
@@ -117,7 +123,7 @@ const ManageInventory = () => {
                           <div className="flex-shrink-0 w-10 h-10">
                             <img
                               className="w-full h-full rounded-full"
-                              src="https://cdn.shopify.com/s/files/1/2336/3219/products/Valencia_Orange_6a5c38d2-2277-4a6c-b5e9-fc764508d0a5_x850.jpg?v=1554667098"
+                              src="https://cairofresh.com/downloads/orange.jpg"
                               alt=""
                             />
                           </div>

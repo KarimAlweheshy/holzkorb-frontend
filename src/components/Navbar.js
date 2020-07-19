@@ -84,13 +84,19 @@ export const Navbar = (isAuthenticated) => {
       onClose={handleMenuClose}>
       {isAuthenticated && (
         <div>
-          <MenuItem onClick={handleProfile}>Profile</MenuItem>
           <MenuItem
             onClick={() => {
               history.push('/manage-inventory');
               handleMenuClose();
             }}>
             Manage Inventory
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              history.push('/login');
+              handleMenuClose();
+            }}>
+            Login
           </MenuItem>
           <MenuItem
             onClick={() => {

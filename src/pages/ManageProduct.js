@@ -6,7 +6,7 @@ import { AuthContext } from '../context/AuthContext';
 
 const ManageProduct = () => {
   const [product, setProduct] = useState([]);
-  const { token, userId } = useContext(AuthContext);
+  const { token } = useContext(AuthContext);
   useEffect(() => {
     if (
       window.localStorage.getItem('isLoading') &&
@@ -23,7 +23,7 @@ const ManageProduct = () => {
         },
       })
         .then((res) => res.json())
-        .then((product) => setProduct(product)))();
+        .then((product) => product.length && setProduct(product)))();
   }, []);
   return (
     <main className="manage-product">
@@ -115,7 +115,7 @@ const ManageProduct = () => {
                           <div className="flex-shrink-0 w-10 h-10">
                             <img
                               className="w-full h-full rounded-full"
-                              src="https://cdn.shopify.com/s/files/1/2336/3219/products/Valencia_Orange_6a5c38d2-2277-4a6c-b5e9-fc764508d0a5_x850.jpg?v=1554667098"
+                              src="https://cairofresh.com/downloads/orange.jpg"
                               alt=""
                             />
                           </div>

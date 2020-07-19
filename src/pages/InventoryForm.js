@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 
 const InventoryForm = ({
@@ -8,7 +9,7 @@ const InventoryForm = ({
   history,
 }) => {
   const [products, setProducts] = useState([]);
-  const { token, userId} = useContext(AuthContext);
+  const { token } = useContext(AuthContext);
   useEffect(() => {
     window.localStorage.setItem('isLoading', 0);
     (() =>
@@ -83,7 +84,6 @@ const InventoryForm = ({
           startDate,
           endDate,
           orderUnit: 'KG',
-          ownerId: userId,
         }),
       }
     )
