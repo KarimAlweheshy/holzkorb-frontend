@@ -21,7 +21,7 @@ const WelcomeFarmer = () => {
   const fetchFarmer = useCallback(async () => {
     try {
       const fetched = await request(
-        'https://holzkorb-backend.herokuapp.com/farmer/me',
+        '/farmer/me',
         'GET',
         null,
         {
@@ -29,8 +29,11 @@ const WelcomeFarmer = () => {
         }
       );
       setFarmer(fetched)
+        if (fetched.imageUrl) {
+            setImgSrc(fetched.imageUrl)
+        }
       const products = await request(
-        'https://holzkorb-backend.herokuapp.com/products',
+        '/products',
         'GET',
         null,
         {
@@ -38,7 +41,6 @@ const WelcomeFarmer = () => {
         }
       );
       setNumProducts(products.length)
-      setImgSrc(fetched.imageUrl)
     } catch (e) {}
   }, [token, request])
 
@@ -59,7 +61,7 @@ const WelcomeFarmer = () => {
   const handleSave = async () => {
     try {
       const fetched = await request(
-        'https://holzkorb-backend.herokuapp.com/farmer/update',
+        '/farmer/update',
         'POST',
           {...farmer, imageUrl: imgSrc},
         {

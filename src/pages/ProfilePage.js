@@ -54,7 +54,7 @@ export const ProfilePage = () => {
                 <AddNewAddressCard/>
             </Grid>
             <Grid container xs={12} md={4} alignItems="stretch" aria-orientation={"vertical"}>
-                <OrderCard/>
+                {/*<OrderCard/>*/}
             </Grid>
         </Grid>
         <Grid item xs={1}/>

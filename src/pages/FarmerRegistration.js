@@ -8,6 +8,7 @@ import Button from "@material-ui/core/Button";
 import {useHistory} from "react-router-dom";
 import {AuthContext} from "../context/AuthContext";
 
+
 const useStyles = makeStyles((theme) => ({
     root: {
         flexWrap: 'wrap',
@@ -16,7 +17,6 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(1),
     },
     story: {
-        display: 'flex',
         margin: theme.spacing(1)
     }
 }));
@@ -50,12 +50,22 @@ export const FarmerRegistration = () => {
             console.log("login error: " + e.message)
         }
     }
+
     return (
         <Grid container>
-            <Grid item xs={2}/>
-            <Grid item xs={8}>
-                <Card>
-                    <form className={classes.root}>
+            <Grid item xs={4}/>
+            <Grid item xs={4}>
+                <Card
+                      direction="column"
+                      alignItems="center"
+                      justify="center"
+                >
+                    <Grid
+                        container
+                        spacing={0}
+                        direction="column"
+                        alignItems="center"
+                        justify="center">
                         <div>
                             <TextField
                                 className={classes.margin}
@@ -113,18 +123,20 @@ export const FarmerRegistration = () => {
                                 onChange={changeHandler}
                             />
                         </div>
-                    </form>
-                    <Button
-                        className={classes.margin}
-                        onClick={handleOnClick}
-                        variant='outlined'
-                    >
-                        save
-                    </Button>
+                        <Button
+                            className={classes.margin}
+                            onClick={handleOnClick}
+                            variant='contained'
+                            color="primary"
+                        >
+                            save
+                        </Button>
+                    </Grid>
+
                 </Card>
             </Grid>
 
-            <Grid item xs={2}/>
+            <Grid item xs={4}/>
         </Grid>
     )
 }

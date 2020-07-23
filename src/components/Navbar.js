@@ -58,15 +58,16 @@ export const Navbar = (isAuthenticated) => {
       event.preventDefault();
       auth.logout();
       handleMenuClose();
-      history.push('/');
       request(
-        'https://holzkorb-backend.herokuapp.com/auth/logout',
+        '/auth/logout',
         'DELETE',
         null,
         {
           Authorization: `Bearer ${auth.token}`,
         }
       );
+      history.push('/')
+        history.go()
     } catch (e) {
       console.log('FAILED LOGOUT');
     }
@@ -107,7 +108,7 @@ export const Navbar = (isAuthenticated) => {
             }}>
             Manage Products
           </MenuItem>
-          <MenuItem onClick={handleProfile}>Profile</MenuItem>
+          {/*<MenuItem onClick={handleProfile}>Profile</MenuItem>*/}
           <MenuItem onClick={handleLogout}>Log out</MenuItem>
         </div>
       )}
@@ -125,7 +126,7 @@ export const Navbar = (isAuthenticated) => {
               <Toolbar>
                   <Typography variant="h6" className={classes.title}
                               onClick={() => {
-                                  history.push('/')
+                                  history.push('/home-page')
                                   history.go()
                               }
                               }

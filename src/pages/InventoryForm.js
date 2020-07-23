@@ -9,11 +9,11 @@ const InventoryForm = ({
   history,
 }) => {
   const [products, setProducts] = useState([]);
-  const { token } = useContext(AuthContext);
+  const { token, userId } = useContext(AuthContext);
   useEffect(() => {
     window.localStorage.setItem('isLoading', 0);
     (() =>
-      fetch('https://holzkorb-backend.herokuapp.com/products', {
+      fetch('/products', {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -53,7 +53,7 @@ const InventoryForm = ({
   );
   useEffect(() => {
     !isCreate &&
-      fetch(`https://holzkorb-backend.herokuapp.com/inventory/${inventoryId}`)
+      fetch(`/inventory/${inventoryId}`)
         .then((res) => res.json())
         .then((inventory) => {
           setProduct(inventory.productId);

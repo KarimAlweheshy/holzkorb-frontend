@@ -31,7 +31,7 @@ const ProductForm = ({
   );
   useEffect(() => {
     !isCreate &&
-      fetch(`https://cors-anywhere.herokuapp.com/https://holzkorb-backend.herokuapp.com/products/${productId}`, {
+      fetch(`/products/${productId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -47,7 +47,7 @@ const ProductForm = ({
   const handleSubmit = (e) => {
     e.preventDefault();
     fetch(
-      `https://cors-anywhere.herokuapp.com/https://holzkorb-backend.herokuapp.com/products${
+      `/products${
         !isCreate ? `/${productId}` : ''
       }`,
       {

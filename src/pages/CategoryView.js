@@ -18,7 +18,7 @@ const CategoryView = ({ title, cart, addToCart, removeFromCart }) => {
   });*/
   const [filteredItems, setFilteredItems] = useState([]);
   useEffect(() => {
-    fetch('https://holzkorb-backend.herokuapp.com/inventory/all')
+    fetch('/inventory/all')
       .then((res) => res.json())
       .then((inventory) => {
         console.log(inventory, 'heyyy');

@@ -17,6 +17,7 @@ import Box from "@material-ui/core/Box";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormGroup from "@material-ui/core/FormGroup";
+import {uniq} from "autoprefixer";
 
 const useStyles = makeStyles((theme) => ({
     filters: {
@@ -55,14 +56,26 @@ export const SearchPage = () => {
         }
     ]
 
+    const unique = (list) => {
+        let sorted = list.sort()
+        let uniq = []
+        for (let i = 0; i < sorted.length - 1; i++) {
+            console.log(sorted[i])
+            if (sorted[i] !== sorted[i + 1])  {
+                uniq.push(sorted[i])
+            }
+        }
+        uniq.push(sorted[sorted.length - 1])
+        return uniq
+    }
     const fetchItems = useCallback(async () => {
         try {
-            const data = await request('/inventory', 'GET', null, {
+            const data = await request('/inventory/all', 'GET', null, {
                 Authorization: `Bearer ${auth.token}`
             })
             setItems(data)
-            setNames(data.map(item => item.name ? item.name : "no name"))
-            setSelected(data.map(item => item.name ? item.name : "no name"))
+            setNames(unique(data.map(item => item.name ? item.name : "no name")))
+            setSelected(unique(data.map(item => item.name ? item.name : "no name")))
             // console.log(data.map(item => item.name ? item.name : "no name"))
         } catch (e) {
 

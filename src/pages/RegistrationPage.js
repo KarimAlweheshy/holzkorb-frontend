@@ -40,7 +40,7 @@ export const RegistrationPage = () => {
       const data = await request('/auth/register', 'POST', { ...form });
       auth.login(data.token, data.userId);
       //TODO: Check which user type has logged in
-      history.push('/welcome-farmer');
+      history.push('/shop');
     } catch (e) {}
   };
 
@@ -54,13 +54,15 @@ export const RegistrationPage = () => {
       <Card>
         <CardContent>
           <Typography>Create your account</Typography>
-          <div className={classes.button}>
+          <div>
             <TextField
               id="firstName"
               label="First Name"
               name="firstName"
               onChange={changeHandler}
             />
+          </div>
+          <div>
             <TextField
               id="lastName"
               label="Last Name"

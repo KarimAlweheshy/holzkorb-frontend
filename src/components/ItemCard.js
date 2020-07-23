@@ -40,7 +40,7 @@ const useStyles = makeStyles({
 
 //TODO show chosen address differently
 export const ItemCard = (item) => {
-    console.log(item.name)
+    console.log(item)
     const classes = useStyles();
     const {request} = useHttp()
     const [product, setProduct] = useState(null)

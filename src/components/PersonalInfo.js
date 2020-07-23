@@ -60,6 +60,7 @@ export const PersonalInfo = (user) => {
     const saveUserDataHandler = async () => {
         try {
 
+            setIsChanged(false)
             const id = auth.userId
             // console.log("id", auth.)
             if (imgSrc != user.profileImageUrl) {
@@ -77,7 +78,6 @@ export const PersonalInfo = (user) => {
             }, {
                 Authorization: `Bearer ${auth.token}`
             })
-            setIsChanged(false)
         } catch (e) {
         }
     }
